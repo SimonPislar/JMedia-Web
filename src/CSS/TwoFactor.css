@@ -1,0 +1,17 @@
+.two-factor-container {
+    padding: 1em;
+    width: 20em;
+}
+
+.text-container {
+    padding: 1em;
+}
+
+.submit-button-container {
+    padding: 1em;
+}
+
+.error-message-container {
+    display: none;
+    color: red;
+}

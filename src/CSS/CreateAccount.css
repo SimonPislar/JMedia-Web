@@ -1,0 +1,59 @@
+body {
+    background-color: #030321;
+}
+
+.create-account-container {
+    height: 20em;
+    width: 25em;
+    padding: 1.5em;
+}
+
+.create-account-form {
+}
+
+.input-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-form {
+    padding: 0.5em;
+}
+
+.create-account-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+}
+
+.create-account-button {
+    background-color: #030321;
+    color: #c5bfbf;
+    border: 1px solid #030321;
+    border-radius: 2em;
+    padding: 0.5em;
+    width: 50%;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.create-account-button:hover {
+    background-color: #c5bfbf;
+    color: #030321;
+    border: 1px solid #030321;
+}
+
+.create-account-button:active {
+    background-color: #AFA3A3;
+    color: #030321;
+    border: 1px solid #030321;
+}
+
+.already-have-account-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+}
