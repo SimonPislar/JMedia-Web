@@ -1,0 +1,15 @@
+.home-template-container {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.white-box {
+    background-color: white;
+    border-radius: 0.5em;
+    text-align: center;
+    text-decoration: none;
+    width: 60%;
+    padding: 1em;
+    margin: 2em;
+}

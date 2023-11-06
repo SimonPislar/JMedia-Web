@@ -1,16 +1,20 @@
 import '../CSS/App.css';
-import {useState} from "react";
-import {Link, Route, Routes} from "react-router-dom";
+import React, {useState} from "react";
+import {Link, Route, Routes, useParams} from "react-router-dom";
 import { Navigate } from 'react-router-dom';
 import CreateAccount from "./CreateAccount";
 import CredentialsTemplate from "./CredentialsTemplate";
 import ForgotPassword from "./ForgotPassword";
 import TwoFactor from "./TwoFactor";
+import PrivateRoute from "../PrivateRoute";
+import Home from "../Home";
+
 
 function App() {
 
     const [username, setUsername] = useState(''); // username is the state variable, setUsername is the function that updates the state variable
     const [password, setPassword] = useState(''); // password is the state variable, setPassword is the function that updates the state variable
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // isAuthenticated is the state variable, setIsAuthenticated is the function that updates the state variable
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -19,6 +23,7 @@ function App() {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
+
 
     const loginPage = (
         <>
@@ -49,74 +54,71 @@ function App() {
         </>
     );
 
-    const routes = (
-        <Routes>
-            <Route path="/create-account" element={<CreateAccount />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-        </Routes>
-    );
+    const handle_sign_in = (email, password) => {
+        console.log("Sign in button clicked");
+        console.log("Email: " + email); // Used for testing, should be removed later
+        console.log("Password: " + password); // Used for testing, should be removed later
 
-    return (
-        <CredentialsTemplate children1={routes} children2={loginPage}></CredentialsTemplate>
-    );
-}
+        const formData = new URLSearchParams();
+        formData.append('email', email);
+        formData.append('password', password);
 
-function handle_sign_in(email, password) {
-    console.log("Sign in button clicked");
-    console.log("Email: " + email); // Used for testing, should be removed later
-    console.log("Password: " + password); // Used for testing, should be removed later
-
-    const formData = new URLSearchParams();
-    formData.append('email', email);
-    formData.append('password', password);
-
-    fetch('http://localhost:8080/userController/LoginAttempt', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    })
-        .then((response) => response.text())
-        .then((data) => {
-            // 'data' will contain the response from the backend
-            console.log(data);
-            if (data === "true") {
-                // The user was successfully logged in
-                console.log("User successfully logged in");
-                document.getElementsByClassName("incorrect-credentials-container")[0].style.display = "none";
-                document.getElementsByClassName("login-form-container")[0].style.height = "20em";
-                // eslint-disable-next-line no-template-curly-in-string
-                fetch(`http://localhost:8080/userController/twoFactorAuthenticator?email=${email}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(generatedCode => {
-                        // Handle the response data here
-                        console.log("Fetch has received this code: " + generatedCode);
-                        // Redirect to the new URL with the generatedCode
-                        //window.location.href = `/two-factor-authentication/${generatedCode}`;
-                        window.location.href = `/two-factor-authentication/${generatedCode}`;
-                    })
-                    .catch(error => {
-                        // Handle any errors here
-                        console.error('Fetch error:', error);
-                    });
-
-            } else {
-                // The user was not successfully logged in
-                console.log("User not successfully logged in");
-                document.getElementsByClassName("incorrect-credentials-container")[0].style.display = "block";
-                document.getElementsByClassName("login-form-container")[0].style.height = "22em";
+        fetch('http://localhost:8080/userController/LoginAttempt', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
-        .catch((error) => {
+            .then((response) => response.text())
+            .then((data) => {
+                // 'data' will contain the response from the backend
+                console.log(data);
+                if (data === "true") {
+                    // Generate two-factor authentication code
+                    generate_two_factor_authentication_code(email);
+                    // The user was successfully logged in
+                    console.log("User credentials are correct");
+                    document.getElementsByClassName("incorrect-credentials-container")[0].style.display = "none";
+                    document.getElementsByClassName("login-form-container")[0].style.height = "20em";
+                    // eslint-disable-next-line no-template-curly-in-string
+                    window.location.href = "/two-factor-authentication";
+
+                } else {
+                    // The user was not successfully logged in
+                    console.log("User not successfully logged in");
+                    document.getElementsByClassName("incorrect-credentials-container")[0].style.display = "block";
+                    document.getElementsByClassName("login-form-container")[0].style.height = "22em";
+                }
+            }
+        ).catch((error) => {
             // Handle any errors that occurred during the fetch
             console.error('Error:', error);
         });
+    }
+
+    const generate_two_factor_authentication_code = (email) => {
+        const formData = new URLSearchParams();
+        formData.append('email', email);
+
+        fetch ('http://localhost:8080/userController/set-two-factor-authentication-code', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then((response) => response.text())
+            .then((data) => {
+                if (data === "Set") {
+                    console.log("Two-factor authentication code successfully generated");
+                }
+            }
+        );
+    }
+
+    return (
+        <CredentialsTemplate children1={null} children2={loginPage}></CredentialsTemplate>
+    );
 }
 
 export default App;

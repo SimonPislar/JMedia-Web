@@ -1,26 +1,35 @@
-import React from 'react';
+// Inside your index.js or App.js (whichever is the top-level component)
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './CSS/index.css';
 import App from './SignIn/App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import CreateAccount from "./SignIn/CreateAccount";
 import ForgotPassword from "./SignIn/ForgotPassword";
 import TwoFactor from "./SignIn/TwoFactor";
+import PrivateRoute from "./PrivateRoute";
 import Home from "./Home";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-    <React.StrictMode>
+
+function AppWrapper() {
+    return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />} />
                 <Route path="/create-account" element={<CreateAccount />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/two-factor-authentication/:generatedCode" element={<TwoFactor />} />
+                <Route path="/home" element={<PrivateRoute user={true}><Home /></PrivateRoute>} />
+                <Route path="/two-factor-authentication" element={<TwoFactor />} />
             </Routes>
         </BrowserRouter>
+    );
+}
+
+root.render(
+    <React.StrictMode>
+        <AppWrapper />
     </React.StrictMode>
 );
 

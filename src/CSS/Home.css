@@ -1,28 +1,3 @@
 .home-container {
     display: flex;
 }
-
-.left-menu-container {
-    width: 17em;
-    height: 100vh;
-    border-right: 1px solid #c5bfbf;
-    background-color: #090909;
-}
-
-.left-menu-button {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #c5bfbf;
-    font-size: 1.4em;
-    padding: 0.5em;
-    color: white;
-    background-color: #10112a;
-}
-
-.left-menu-button:hover {
-    background-color: #040431;
-}
-
-.left-menu-button:active {
-    background-color: #050541;
-}
