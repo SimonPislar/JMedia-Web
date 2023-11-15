@@ -82,7 +82,7 @@ function App() {
                     document.getElementsByClassName("incorrect-credentials-container")[0].style.display = "none";
                     document.getElementsByClassName("login-form-container")[0].style.height = "20em";
                     // eslint-disable-next-line no-template-curly-in-string
-                    window.location.href = "/two-factor-authentication";
+                    window.location.href = `/two-factor-authentication/${email}`;
 
                 } else {
                     // The user was not successfully logged in
