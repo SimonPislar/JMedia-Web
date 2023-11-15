@@ -6,9 +6,9 @@ import Home from "../Home";
 
 function TwoFactor() {
 
-    const [code, setCode] = useState('');
-
     const {email} = useParams();
+
+    const [code, setCode] = useState('');
 
     const handleCodeChange = (event) => {
         setCode(event.target.value);
