@@ -21,7 +21,7 @@ function AppWrapper() {
                 <Route path="/create-account" element={<CreateAccount />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/home" element={<PrivateRoute user={true}><Home /></PrivateRoute>} />
-                <Route path="/two-factor-authentication" element={<TwoFactor />} />
+                <Route path="/two-factor-authentication/:email" element={<TwoFactor />} />
             </Routes>
         </BrowserRouter>
     );
