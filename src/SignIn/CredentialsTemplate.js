@@ -3,9 +3,9 @@ import '../CSS/CredentialsTemplate.css';
 
 function CredentialsTemplate({ children1, children2 }) {
     return (
-        <div class="login-container">
+        <div className="login-container">
             {children1}
-            <div class="login">
+            <div className="login">
                 {children2}
             </div>
         </div>
