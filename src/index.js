@@ -1,13 +1,13 @@
 // Inside your index.js or App.js (whichever is the top-level component)
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './CSS/index.css';
-import App from './SignIn/App';
+import './ReactComponents/CSS/index.css';
+import App from './ReactComponents/SignIn/App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
-import CreateAccount from "./SignIn/CreateAccount";
-import ForgotPassword from "./SignIn/ForgotPassword";
-import TwoFactor from "./SignIn/TwoFactor";
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import CreateAccount from "./ReactComponents/SignIn/CreateAccount";
+import ForgotPassword from "./ReactComponents/SignIn/ForgotPassword";
+import TwoFactor from "./ReactComponents/SignIn/TwoFactor";
 import PrivateRoute from "./PrivateRoute";
 import Home from "./Home";
 
