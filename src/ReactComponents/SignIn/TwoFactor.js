@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import '../CSS/TwoFactor.css';
 import CredentialsTemplate from "./CredentialsTemplate";
-import {Route, Routes, useParams} from 'react-router-dom';
-import Home from "../Home";
+import {useParams} from 'react-router-dom';
 
 function TwoFactor() {
 
@@ -43,7 +42,7 @@ function TwoFactor() {
         formData.append('email', email);
         formData.append('code', code);
 
-        fetch('http://localhost:8080/userController/two-factor-authentication-check', {
+        fetch('http://localhost:8080/user-controller/two-factor-authentication-check', {
             method: 'POST',
             body: formData,
             headers: {
@@ -53,6 +52,21 @@ function TwoFactor() {
             .then((data) => {
                 if (data === "true") {
                     console.log("Correct code");
+                    const payload = new URLSearchParams();
+                    payload.append('email', email);
+                    fetch('http://localhost:8080/user-controller/generate-new-session-token', {
+                        method: 'POST',
+                        body: payload,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    }).then((response) => response.text())
+                        .then((data) => {
+                            console.log("Session token: " + data);
+                            localStorage.setItem("sessionToken", data);
+                            localStorage.setItem("email", email);
+                        }
+                    );
                     window.location.href = "/home";
                 } else {
                     console.log("Incorrect code");
