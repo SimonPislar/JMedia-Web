@@ -54,7 +54,7 @@ function ForgotPassword() {
 function handleSubmit(email) {
     console.log("Submit button clicked")
 
-    const result = fetch('http://localhost:8080/userController/sendForgotPasswordEmail?email=' + email)
+    const result = fetch('http://localhost:8080/user-controller/send-forgot-password-email?email=' + email)
         .then((response) => response.text())
         .then((data) => {
             // 'data' will contain the response from the backend
