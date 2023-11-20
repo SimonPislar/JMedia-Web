@@ -86,7 +86,7 @@ function CreateAccount() {
 
 //TODO: fix error
 function userExists(email) {
-    fetch('http://localhost:8080/userController/getUserByEmail?email=' + email)
+    fetch('http://localhost:8080/user-controller/get-user-by-email?email=' + email)
         .then((response) => response.text())
         .then((data) => {
                 // 'data' will contain the response from the backend
@@ -170,7 +170,7 @@ function sendCreateAccountRequest(firstName, lastName, username, email, password
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
 
-    fetch('http://localhost:8080/userController/addUser', {
+    fetch('http://localhost:8080/user-controller/add-user', {
         method: 'POST',
         body: formData,
         headers: {
