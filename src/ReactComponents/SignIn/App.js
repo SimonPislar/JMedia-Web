@@ -1,20 +1,30 @@
 import '../CSS/App.css';
 import React, {useState} from "react";
-import {Link, Route, Routes, useParams} from "react-router-dom";
-import { Navigate } from 'react-router-dom';
-import CreateAccount from "./CreateAccount";
+import {Link} from "react-router-dom";
 import CredentialsTemplate from "./CredentialsTemplate";
-import ForgotPassword from "./ForgotPassword";
-import TwoFactor from "./TwoFactor";
-import PrivateRoute from "../PrivateRoute";
-import Home from "../Home";
 
 
 function App() {
 
+    const formData = new URLSearchParams();
+    formData.append('sessionToken', localStorage.getItem('sessionToken'));
+    formData.append('email', localStorage.getItem('email'));
+    fetch ('http://localhost:8080/user-controller/check-session-token', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }).then((response) => response.text())
+        .then((data) => {
+                if (data === "true") {
+                    window.location.href = "/home";
+                }
+            }
+        );
+
     const [username, setUsername] = useState(''); // username is the state variable, setUsername is the function that updates the state variable
     const [password, setPassword] = useState(''); // password is the state variable, setPassword is the function that updates the state variable
-    const [isAuthenticated, setIsAuthenticated] = useState(false); // isAuthenticated is the state variable, setIsAuthenticated is the function that updates the state variable
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -63,7 +73,7 @@ function App() {
         formData.append('email', email);
         formData.append('password', password);
 
-        fetch('http://localhost:8080/userController/LoginAttempt', {
+        fetch('http://localhost:8080/user-controller/login-request', {
             method: 'POST',
             body: formData,
             headers: {
@@ -101,7 +111,7 @@ function App() {
         const formData = new URLSearchParams();
         formData.append('email', email);
 
-        fetch ('http://localhost:8080/userController/set-two-factor-authentication-code', {
+        fetch ('http://localhost:8080/user-controller/set-two-factor-authentication-code', {
             method: 'POST',
             body: formData,
             headers: {
